@@ -53,7 +53,7 @@ function displayPosts() {
         postElement.appendChild(postTitle);
         postElement.appendChild(postBody);
         postElement.addEventListener('click', () => {
-            //openPostComments(`${post.id}`)
+            openPostComments(`${post.id}`)
         });
         // Adding post to the Posts Container
         postContainer.appendChild(postElement);
@@ -99,7 +99,23 @@ nextPageBtn.addEventListener("click", () => {
     currPage++;
     displayPosts();
 });
-  
-// Initialize
+
+// Open post comments in a new tab
+function openPostComments(postId) {
+    const newWindow = window.open("../comments.html", "_blank");
+
+    fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
+      .then(response => response.json())
+      .then(comments => {
+        const commentsContainer = newWindow.document.getElementById("commentsContainer");
+        comments.forEach(comment => {
+          const commentElement = document.createElement("div");
+          commentElement.setAttribute('class', 'comment-elm')
+          commentElement.innerHTML = `<strong>${comment.name}</strong><p>${comment.body}</p>`;
+          commentsContainer.appendChild(commentElement);
+        });
+      });
+  }
+
 getPosts();
 getUsers();
