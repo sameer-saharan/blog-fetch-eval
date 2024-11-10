@@ -29,3 +29,29 @@ header {
     padding: 8px;
     font-size: 16px;
 }
+
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+}
+
+.pagination span {
+    font-weight: bold;
+    background-color: #ebcd6a;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 20px;
+}
