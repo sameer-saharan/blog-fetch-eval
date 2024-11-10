@@ -17,11 +17,23 @@ async function getPosts() {
     const response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
     const data = await response.json();
     filteredPosts = data;
+    displayPosts()
 }
 
 async function getUsers() {
     const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
     const data = await response.json();
+    users = data;
+    populateUserDropdown()
+}
+
+function populateUserDropdown() {
+    users.forEach(user => {
+        const option = document.createElement('option');
+        option.value = user.id;
+        option.textContent = user.name;
+        userDropdown.appendChild(option);
+    })
 }
 
 // https://jsonplaceholder.typicode.com/comments?postId=${1}
@@ -45,5 +57,47 @@ function displayPosts() {
         // Adding post to the Posts Container
         postContainer.appendChild(postElement);
     })
-    // 
+    updatePaginationButtons(); 
 }
+
+function updatePaginationButtons() {
+    prevPageBtn.disabled = currPage === 1;
+    nextPageBtn.disable = (currPage * postsPerPage) >= filteredPosts.length;
+    currPageSpan.textContent = currPage;
+}
+
+// Event listeners for filtering, sorting, and pagination
+
+userDropdown.addEventListener("change", () => {
+    const userId = userDropdown.value;
+    filteredPosts = userId ? posts.filter(post => post.userId == userId) : posts;
+    currPage = 1;
+    displayPosts();
+});
+  
+searchInput.addEventListener("input", () => {
+    const searchText = searchInput.value.toLowerCase();
+    filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchText) || post.body.toLowerCase().includes(searchText));
+    currPage = 1;
+    displayPosts();
+});
+  
+sortDropdown.addEventListener("change", () => {
+    const sortOrder = sortDropdown.value;
+    filteredPosts.sort((a, b) => sortOrder === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title));
+    displayPosts();
+});
+  
+prevPageBtn.addEventListener("click", () => {
+    currPage--;
+    displayPosts();
+});
+  
+nextPageBtn.addEventListener("click", () => {
+    currPage++;
+    displayPosts();
+});
+  
+// Initialize
+getPosts();
+getUsers();
