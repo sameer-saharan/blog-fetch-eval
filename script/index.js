@@ -10,12 +10,13 @@ let posts = [];
 let users = [];
 let filteredPosts = [];
 let currPage = 1;
-const postsPerPage = 10;
+const postsPerPage = 5;
 
 // Fetch Posts and Users
 async function getPosts() {
     const response = await fetch(`https://jsonplaceholder.typicode.com/posts`);
     const data = await response.json();
+    posts = data;
     filteredPosts = data;
     displayPosts()
 }
@@ -70,6 +71,7 @@ function updatePaginationButtons() {
 
 userDropdown.addEventListener("change", () => {
     const userId = userDropdown.value;
+    console.log(userId)
     filteredPosts = userId ? posts.filter(post => post.userId == userId) : posts;
     currPage = 1;
     displayPosts();
