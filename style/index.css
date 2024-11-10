@@ -36,6 +36,18 @@ header {
     gap: 20px;
 }
 
+.post {
+    background-color: #e9ce8c;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.post:hover {
+    background-color: #edc765;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
